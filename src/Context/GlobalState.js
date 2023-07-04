@@ -2,10 +2,11 @@ import React, { createContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext({
   transcations: [],
-  
 });
 export const GlobalContextProvider = (props) => {
   const [updateTransaction, setUpdateTransaction] = useState([]);
+  const [istransactionChanged, setIsTransactionChanged] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -24,8 +25,7 @@ export const GlobalContextProvider = (props) => {
       setUpdateTransaction(loadedTransaction);
     };
     fetchData();
-  }, []);
-  // console.log(updateTransaction);
+  }, [istransactionChanged]);
 
   //   functions
 
@@ -46,10 +46,13 @@ export const GlobalContextProvider = (props) => {
         },
       }
     );
+    setIsTransactionChanged((istransactionChanged) => !istransactionChanged);
+    console.log("Added sucessfully");
   };
+
   //  delete Transaction
-  const deleteTransaction = (id) => {
-    fetch(
+  const deleteTransaction = async (id) => {
+    await fetch(
       `https://abdullah-expense-tracking-default-rtdb.firebaseio.com/Tracker/${id}.json/`,
       {
         method: "DELETE",
@@ -59,6 +62,8 @@ export const GlobalContextProvider = (props) => {
         },
       }
     );
+    setIsTransactionChanged((istransactionChanged) => !istransactionChanged);
+    console.log("deleted Sucessfully");
   };
 
   // calculation
@@ -88,4 +93,3 @@ export const GlobalContextProvider = (props) => {
     </GlobalContext.Provider>
   );
 };
-

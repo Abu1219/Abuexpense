@@ -1,4 +1,4 @@
-import React, { useState, useContext, } from "react";
+import React, { useState, useContext } from "react";
 import { GlobalContext } from "../Context/GlobalState";
 export const AddTransactionLists = () => {
   const [text, setText] = useState("");
@@ -12,6 +12,8 @@ export const AddTransactionLists = () => {
       amount: amount,
     };
     addTransaction(transcation);
+    setAmount(0);
+    setText("");
   };
 
   return (
@@ -21,9 +23,9 @@ export const AddTransactionLists = () => {
         <div className="form-control">
           <label htmlFor="text">Text</label>
           <input
+            value={text}
             type="text"
             placeholder="Enter text..."
-            
             onChange={(e) => setText(e.target.value)}
           />
         </div>
@@ -33,9 +35,9 @@ export const AddTransactionLists = () => {
             (negative - expense, positive - income)
           </label>
           <input
+            value={amount}
             type="number"
             placeholder="Enter amount..."
-            
             onChange={(e) => setAmount(e.target.value)}
           />
         </div>
